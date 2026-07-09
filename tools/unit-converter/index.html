@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Unit Converter | Online Tools</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:#f5f7fb;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.box{
+background:white;
+width:400px;
+max-width:90%;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+
+h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+select,input,button{
+
+width:100%;
+padding:14px;
+margin-top:12px;
+border:none;
+border-radius:12px;
+font-size:16px;
+
+}
+
+select,input{
+
+background:#eef2ff;
+
+}
+
+button{
+
+background:#4f46e5;
+color:white;
+cursor:pointer;
+
+}
+
+.result{
+
+margin-top:25px;
+padding:15px;
+background:#f1f5f9;
+border-radius:12px;
+text-align:center;
+font-size:18px;
+
+}
+
+a{
+
+display:block;
+text-align:center;
+margin-top:20px;
+text-decoration:none;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="box">
+
+
+<h2>📏 Unit Converter</h2>
+
+
+<select id="type">
+
+<option value="length">
+Length (m / km)
+</option>
+
+<option value="weight">
+Weight (g / kg)
+</option>
+
+<option value="temperature">
+Temperature (°C / °F)
+</option>
+
+<option value="volume">
+Volume (L / ml)
+</option>
+
+</select>
+
+
+<input 
+id="number"
+type="number"
+placeholder="Enter value"
+>
+
+
+<button onclick="convert()">
+Convert
+</button>
+
+
+<div class="result" id="result">
+Result will appear here
+</div>
+
+
+<a href="../../index.html">
+⬅ Back to Home
+</a>
+
+
+</div>
+
+
+
+<script>
+
+
+function convert(){
+
+
+let value =
+Number(document.getElementById("number").value);
+
+
+let type =
+document.getElementById("type").value;
+
+
+let result="";
+
+
+if(!value && value!==0){
+
+result="Enter a number";
+
+}
+
+
+else if(type==="length"){
+
+result =
+`${value} m = ${value/1000} km`;
+
+}
+
+
+else if(type==="weight"){
+
+result =
+`${value} g = ${value/1000} kg`;
+
+}
+
+
+else if(type==="temperature"){
+
+result =
+`${value} °C = ${(value*9/5)+32} °F`;
+
+}
+
+
+else if(type==="volume"){
+
+result =
+`${value} L = ${value*1000} ml`;
+
+}
+
+
+document.getElementById("result").innerHTML=result;
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
