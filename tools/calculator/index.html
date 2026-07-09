@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calculator | Online Tools</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:#f5f7fb;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.calc{
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
+width:340px;
+}
+
+input{
+width:100%;
+height:70px;
+font-size:32px;
+text-align:right;
+padding:10px;
+border:none;
+background:#eef2ff;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+.buttons{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+}
+
+button{
+height:60px;
+font-size:22px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+background:#4f46e5;
+color:white;
+transition:.2s;
+}
+
+button:hover{
+transform:scale(.96);
+}
+
+.equal{
+grid-column:span 2;
+background:#22c55e;
+}
+
+.clear{
+background:#ef4444;
+}
+
+.back{
+margin-top:15px;
+display:block;
+text-align:center;
+text-decoration:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="calc">
+
+<input id="display" readonly>
+
+<div class="buttons">
+
+<button onclick="add('7')">7</button>
+<button onclick="add('8')">8</button>
+<button onclick="add('9')">9</button>
+<button onclick="add('/')">÷</button>
+
+<button onclick="add('4')">4</button>
+<button onclick="add('5')">5</button>
+<button onclick="add('6')">6</button>
+<button onclick="add('*')">×</button>
+
+<button onclick="add('1')">1</button>
+<button onclick="add('2')">2</button>
+<button onclick="add('3')">3</button>
+<button onclick="add('-')">−</button>
+
+<button onclick="add('0')">0</button>
+<button onclick="add('.')">.</button>
+<button class="clear" onclick="clr()">C</button>
+<button onclick="add('+')">+</button>
+
+<button class="equal" onclick="calc()">=</button>
+
+</div>
+
+<a class="back" href="../../index.html">⬅ Back to Home</a>
+
+</div>
+
+<script>
+
+const display=document.getElementById("display");
+
+function add(v){
+display.value+=v;
+}
+
+function clr(){
+display.value="";
+}
+
+function calc(){
+
+try{
+
+display.value=eval(display.value);
+
+}catch{
+
+display.value="Error";
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
