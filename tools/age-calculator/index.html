@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Age Calculator | Online Tools</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:#f5f7fb;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.box{
+background:white;
+width:380px;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
+text-align:center;
+}
+
+h2{
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:15px;
+border:none;
+background:#eef2ff;
+border-radius:12px;
+font-size:16px;
+}
+
+button{
+width:100%;
+margin-top:20px;
+padding:15px;
+border:none;
+border-radius:12px;
+background:#4f46e5;
+color:white;
+font-size:17px;
+cursor:pointer;
+}
+
+.result{
+margin-top:25px;
+font-size:18px;
+font-weight:bold;
+}
+
+a{
+display:block;
+margin-top:20px;
+text-decoration:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>🎂 Age Calculator</h2>
+
+<input 
+type="date" 
+id="birth"
+>
+
+
+<button onclick="calculateAge()">
+Calculate Age
+</button>
+
+
+<div class="result" id="result"></div>
+
+
+<a href="../../index.html">
+⬅ Back to Home
+</a>
+
+
+</div>
+
+
+<script>
+
+function calculateAge(){
+
+let birth = new Date(
+document.getElementById("birth").value
+);
+
+let today = new Date();
+
+
+if(!birth.getTime()){
+
+document.getElementById("result").innerHTML=
+"Please select your birth date";
+
+return;
+
+}
+
+
+let years =
+today.getFullYear()-birth.getFullYear();
+
+let months =
+today.getMonth()-birth.getMonth();
+
+let days =
+today.getDate()-birth.getDate();
+
+
+if(days < 0){
+
+months--;
+
+let previousMonth =
+new Date(
+today.getFullYear(),
+today.getMonth(),
+0
+).getDate();
+
+days += previousMonth;
+
+}
+
+
+if(months < 0){
+
+years--;
+months += 12;
+
+}
+
+
+document.getElementById("result").innerHTML =
+`You are ${years} years, ${months} months and ${days} days old`;
+
+}
+
+</script>
+
+</body>
+</html>
