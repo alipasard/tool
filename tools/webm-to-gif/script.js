@@ -2,40 +2,31 @@ const { FFmpeg } = FFmpegWASM;
 
 const ffmpeg = new FFmpeg();
 
-let selectedFile = null;
-let convertedURL = null;
+let selectedFiles = [];
+let downloads = [];
 
 
 const fileInput = document.getElementById("files");
 const convertBtn = document.getElementById("convertBtn");
 const list = document.getElementById("list");
-const downloadBtn = document.getElementById("downloadBtn");
 
 
 fileInput.addEventListener("change", () => {
 
-    selectedFile = fileInput.files[0];
+    selectedFiles = [...fileInput.files].slice(0,20);
 
     list.innerHTML = "";
 
-    if(selectedFile){
+    selectedFiles.forEach(file=>{
 
-        list.innerHTML = `
+        list.innerHTML += `
         <div class="file-item">
-        ${selectedFile.name}
-
-        <div class="progress">
-        <span id="bar"></span>
-        </div>
-
-        <p id="status">
-        Ready
-        </p>
-
+            ${file.name}
+            <p class="status">Waiting...</p>
         </div>
         `;
 
-    }
+    });
 
 });
 
@@ -56,138 +47,127 @@ async function loadFFmpeg(){
 
 
 
-convertBtn.onclick = async ()=>{
+convertBtn.onclick = async()=>{
 
 
-    if(!selectedFile){
+if(selectedFiles.length===0){
 
-        alert("Choose a WebM file first");
+alert("Select WebM files first");
+return;
 
-        return;
+}
 
-    }
 
+convertBtn.disabled=true;
 
-    convertBtn.disabled=true;
+downloads=[];
 
-    document.getElementById("status").innerText =
-    "Loading FFmpeg...";
 
+await loadFFmpeg();
 
-    await loadFFmpeg();
 
+const items =
+document.querySelectorAll(".file-item");
 
-    const data =
-    await selectedFile.arrayBuffer();
 
+for(let i=0;i<selectedFiles.length;i++){
 
-    await ffmpeg.writeFile(
-        "input.webm",
-        new Uint8Array(data)
-    );
 
+let file=selectedFiles[i];
 
 
-    const fps =
-    document.getElementById("fps").value;
+items[i].querySelector(".status").innerText=
+"Converting...";
 
 
-    const width =
-    document.getElementById("width").value;
+const data =
+await file.arrayBuffer();
 
 
 
-    document.getElementById("status").innerText =
-    "Converting...";
+await ffmpeg.writeFile(
+`input${i}.webm`,
+new Uint8Array(data)
+);
 
 
 
-    await ffmpeg.exec([
+const fps =
+document.getElementById("fps").value;
 
-        "-i",
-        "input.webm",
 
-        "-vf",
-        `fps=${fps},scale=${width}:-1`,
+const width =
+document.getElementById("width").value;
 
-        "output.gif"
 
-    ]);
 
+await ffmpeg.exec([
 
+"-i",
+`input${i}.webm`,
 
-    const gif =
-    await ffmpeg.readFile("output.gif");
+"-vf",
+`fps=${fps},scale=${width}:-1`,
 
+`output${i}.gif`
 
+]);
 
-    const blob =
-    new Blob(
-        [gif.buffer],
-        {
-            type:"image/gif"
-        }
-    );
 
 
+const gif =
+await ffmpeg.readFile(
+`output${i}.gif`
+);
 
-    convertedURL =
-    URL.createObjectURL(blob);
 
 
+const blob =
+new Blob(
+[gif.buffer],
+{
+type:"image/gif"
+}
+);
 
-    const link =
-    document.createElement("a");
 
 
-    link.href=convertedURL;
+const url =
+URL.createObjectURL(blob);
 
-    link.download=
-    selectedFile.name.replace(".webm",".gif");
 
 
-    link.innerText=
-    "⬇ Download GIF";
+downloads.push({
+url:url,
+name:file.name.replace(".webm",".gif")
+});
 
 
-    link.style.display="block";
 
-    link.style.marginTop="15px";
+let link=document.createElement("a");
 
+link.href=url;
 
-    list.appendChild(link);
+link.download=
+file.name.replace(".webm",".gif");
 
+link.innerText=
+"⬇ Download "+link.download;
 
+link.style.display="block";
 
-    document.getElementById("status").innerText =
-    "Done ✅";
 
+items[i].appendChild(link);
 
-    document.getElementById("bar").style.width="100%";
 
+items[i].querySelector(".status").innerText=
+"Done ✅";
 
-    downloadBtn.disabled=false;
 
+}
 
-    convertBtn.disabled=false;
 
-};
+convertBtn.disabled=false;
 
-
-
-
-downloadBtn.onclick=()=>{
-
-    if(convertedURL){
-
-        const a=document.createElement("a");
-
-        a.href=convertedURL;
-
-        a.download="converted.gif";
-
-        a.click();
-
-    }
 
 };
