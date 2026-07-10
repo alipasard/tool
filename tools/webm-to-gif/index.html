@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>WebM to GIF Converter | Online Tools</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🎞️ WebM to GIF</h1>
+
+<p>
+Convert up to 20 WebM videos into GIFs directly in your browser.
+No upload required.
+</p>
+
+</header>
+
+<main>
+
+<div class="upload-area" id="dropArea">
+
+<h2>Drag & Drop WebM Files</h2>
+
+<p>or</p>
+
+<input
+type="file"
+id="files"
+accept=".webm,video/webm"
+multiple>
+
+<small>Maximum 20 files</small>
+
+</div>
+
+<section class="settings">
+
+<h2>Settings</h2>
+
+<label>
+
+FPS
+
+<input
+id="fps"
+type="number"
+value="15"
+min="5"
+max="30">
+
+</label>
+
+<label>
+
+Width
+
+<input
+id="width"
+type="number"
+value="480"
+min="120"
+max="1920">
+
+</label>
+
+<label>
+
+Quality
+
+<input
+id="quality"
+type="range"
+min="1"
+max="100"
+value="80">
+
+</label>
+
+</section>
+
+<div class="actions">
+
+<button id="convertBtn">
+
+Convert All
+
+</button>
+
+<button id="downloadBtn" disabled>
+
+Download ZIP
+
+</button>
+
+</div>
+
+<section
+id="list"
+class="file-list">
+
+</section>
+
+</main>
+
+<footer>
+
+© 2026 Online Tools
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
