@@ -171,3 +171,66 @@ convertBtn.disabled=false;
 
 
 };
+const downloadBtn =
+document.getElementById("downloadBtn");
+
+
+downloadBtn.onclick = async()=>{
+
+
+if(downloads.length===0){
+
+alert("No converted files");
+
+return;
+
+}
+
+
+const zip = new JSZip();
+
+
+for(let file of downloads){
+
+
+const response =
+await fetch(file.url);
+
+
+const blob =
+await response.blob();
+
+
+zip.file(
+file.name,
+blob
+);
+
+
+}
+
+
+
+const content =
+await zip.generateAsync({
+type:"blob"
+});
+
+
+const url =
+URL.createObjectURL(content);
+
+
+
+const a =
+document.createElement("a");
+
+
+a.href=url;
+
+a.download="converted-gifs.zip";
+
+a.click();
+
+
+};
